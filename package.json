@@ -1,0 +1,14 @@
+{
+  "dependencies": {
+    "ejs": "^3.1.6",
+    "express": "^4.17.2",
+    "fs": "^0.0.1-security",
+    "image-map": "^2.0.1",
+    "imagemapster": "^1.5.4",
+    "jquery": "^3.6.0",
+    "node-fetch": "^2.6.7",
+    "querystring": "^0.2.1",
+    "url-parse": "^1.5.3",
+    "url-parser": "^0.0.1"
+  }
+}
