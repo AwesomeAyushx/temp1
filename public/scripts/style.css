@@ -1,0 +1,22 @@
+img {
+    max-width: 35vw;
+    height: auto; 
+    display: block;
+}
+
+#container{
+    min-height: 100vh;
+    text-align: center;
+}
+
+.top{
+    height: 40vh;
+    width: 100%;
+    background-color: #abc;
+    text-align: center;
+}
+
+.bottom{
+    height: 50vh;
+    background-color: #6A92B9;
+}

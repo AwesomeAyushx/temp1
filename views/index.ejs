@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/scripts/style.css">
+    <!--<link rel="stylesheet" href="/scripts/navigation.css" type="text/css">-->
+    <script type="text/javascript" src="scripts/jquery.3.5.1.min.js"></script>
+    <script type="text/javascript" src="scripts/jquery.imagemapster.min.js"></script>    
+    <title>ABC Church</title>
+</head>
+<body>   
+    <!-- Get Camera IP Address-->
+    <% if (typeof configData['camera_ip'] != 'undefined' ) {
+        var camera_ip = configData['camera_ip']
+    } %>
+
+    <% if (typeof configData['image_map_coordinates'] != 'undefined' ) {
+        var areaMaps = Object.keys(configData['image_map_coordinates'])
+        var imageMap = true
+    } %>    
+
+<div class="container">
+    <!--<header>
+      <div class="nav">
+        <ul>
+          <li><a class="active" href="/">Home</a></li>
+          <% if (imageMap) { 
+                for (const loc of areaMaps) {  %>
+                    <li><a href="#"><%= loc %></a></li>
+            <% }
+            } %>  
+        </ul>
+      </div>
+    </header>-->
+    
+    <div align="center" class="top">
+    
+            <center><img id="church" src="images/church.jpg" usemap="#image_map" /></center>
+        
+        <!-- Get Area Coordinates -->
+        <% if (typeof configData['image_map_coordinates'] != 'undefined' ) { %>
+            <map name="image_map"  id="image_map">
+            <% Object.keys(configData['image_map_coordinates']).forEach(function(key) { %>
+                <area href="" title="<%= key %>" data-name="<%= key %>,all" onclick="zoneClicked('<%= key %>')" coords="<%= configData['image_map_coordinates'][key] %>" shape="rect">
+            <% }); %>
+        <% } %>
+            </map>
+    </div>
+          <!--
+    <div class="bottom">
+        <div style="height: 100vh; text-align: center;" >
+                <iframe src="http://108.233.83.51/media_view.html" width="70%"  frameBorder="0" style="overflow:hidden;height:50vh; width: 70vw;"></iframe>
+        </div>   
+    </div>-->
+</div>
+
+<script type="text/javascript">
+        var inArea;
+        var image = $('#church');
+        var resizeTime = 100, resizeDelay = 100;
+        var single_opts = {
+                fillColor: '000000',
+                fillOpacity: 0,
+                stroke: true,
+                strokeColor: 'ff0000',
+                strokeWidth: 3
+            },
+            all_opts = {
+                fillColor: 'ff1a1a',
+                fillOpacity: 0.2,
+                stroke: true,
+                strokeWidth: 2,
+                strokeColor: 'ff1a1a'
+            },
+            initial_opts = {
+                mapKey: 'data-name',
+                isSelectable: false,
+                onMouseover: function (data) {
+                    inArea = true;
+                },
+                onMouseout: function (data) {
+                    inArea = false;
+                }
+            };
+            opts = $.extend({}, all_opts, initial_opts, single_opts);
+
+            // Bind to the image 'mouseover' and 'mouseout' events to activate or deactivate ALL the areas, like the
+            // original demo. Check whether an area has been activated with "inArea" - IE<9 fires "onmouseover" 
+            // again for the image when entering an area, so all areas would stay highlighted when entering
+            // a specific area in those browsers otherwise. It makes no difference for other browsers.
+
+            image.mapster('unbind')
+                .mapster(opts)
+                .bind('mouseover', function () {
+                    if (!inArea) {
+                        image.mapster('set_options', all_opts)
+                            .mapster('set', true, 'all')
+                            .mapster('set_options', single_opts);
+                    }
+                }).bind('mouseout', function () {
+                    if (!inArea) {
+                        image.mapster('set', false, 'all');
+                    }
+                });    
+
+            // Resize the map to fit within the boundaries provided
+
+            function resize(maxWidth,maxHeight) {
+                    imgWidth = image.width(),
+                    imgHeight = image.height(),
+                    newWidth=0,
+                    newHeight=0;
+
+                if (imgWidth/maxWidth>imgHeight/maxHeight) {
+                    newWidth = maxWidth;
+                } else {
+                    newHeight = maxHeight;
+                }
+                image.mapster('resize',newWidth,newHeight,resizeTime);   
+            }
+
+            // Track window resizing events, but only actually call the map resize when the
+            // window isn't being resized any more
+
+            function onWindowResize() {
+
+                var curWidth = $(window).width(),
+                    curHeight = $(window).height(),
+                    checking=false;
+                if (checking) {
+                    return;
+                        }
+                checking = true;
+                window.setTimeout(function() {
+                    var newWidth = $(window).width(),
+                    newHeight = $(window).height();
+                    if (newWidth === curWidth &&
+                        newHeight === curHeight) {
+                        resize(newWidth,newHeight); 
+                    }
+                    checking=false;
+                },resizeDelay );
+            }        
+
+        async function zoneClicked(key){
+            console.log(key)
+            
+            const Http = new XMLHttpRequest();
+            const url = '/zoneClicked/' + key
+            console.log(url);
+            Http.open("GET", url)
+            Http.send();
+
+            Http.onreadystatechange = (e)=>{
+                console.log(Http.responseText)
+            }
+        }
+
+        </script> 
+
+</body>
+</html>
