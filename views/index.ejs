@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/scripts/style.css">
-    <!--<link rel="stylesheet" href="/scripts/navigation.css" type="text/css">-->
-    <script type="text/javascript" src="scripts/jquery.3.5.1.min.js"></script>
-    <script type="text/javascript" src="scripts/jquery.imagemapster.min.js"></script>    
+    <link rel="stylesheet" href="style.css">
+    <script type="text/javascript" src="jquery.3.5.1.min.js"></script>
+    <script type="text/javascript" src="jquery.imagemapster.min.js"></script>    
     <title>ABC Church</title>
 </head>
 <body>   
@@ -21,22 +21,9 @@
     } %>    
 
 <div class="container">
-    <!--<header>
-      <div class="nav">
-        <ul>
-          <li><a class="active" href="/">Home</a></li>
-          <% if (imageMap) { 
-                for (const loc of areaMaps) {  %>
-                    <li><a href="#"><%= loc %></a></li>
-            <% }
-            } %>  
-        </ul>
-      </div>
-    </header>-->
-    
     <div align="center" class="top">
     
-            <center><img id="church" src="images/church.jpg" usemap="#image_map" /></center>
+            <center><img id="church" src="church.jpg" usemap="#image_map" /></center>
         
         <!-- Get Area Coordinates -->
         <% if (typeof configData['image_map_coordinates'] != 'undefined' ) { %>
@@ -47,12 +34,12 @@
         <% } %>
             </map>
     </div>
-          <!--
+          
     <div class="bottom">
         <div style="height: 100vh; text-align: center;" >
                 <iframe src="http://108.233.83.51/media_view.html" width="70%"  frameBorder="0" style="overflow:hidden;height:50vh; width: 70vw;"></iframe>
         </div>   
-    </div>-->
+    </div>
 </div>
 
 <script type="text/javascript">
